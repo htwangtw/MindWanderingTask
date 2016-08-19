@@ -6,19 +6,11 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 Documentation coming soon. 
 
 
-##Updates:
+##Recet update:
 
-19082016	Increased the number of go-trials in the practice.
-		      Added feedback screen after the go-trials in practice, with a handle to toggle it on and off. 
-		
-18082016	Moved Focus question to 'probe_loop.csv'
+19082016	
 
-16082016	added some annotation in the main exp file
+Increased the number of go-trials in the practice.
 
-24062061	shorten the practice by cutting the number of questions at the end. 
-		      The practice is a fixed set of trials.
-
-23062016	Transparent fixation cross background color
-
-16062016	v2.0 handle more then one switch
+Added feedback screen after the go-trials in practice, with a handle to toggle it on and off. 
 
