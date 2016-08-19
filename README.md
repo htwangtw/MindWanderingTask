@@ -6,7 +6,8 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 Documentation coming soon. 
 
 
-Update:
+##Updates:
+
 19082016	Increased the number of go-trials in the practice.
 		      Added feedback screen after the go-trials in practice, with a handle to toggle it on and off. 
 		
