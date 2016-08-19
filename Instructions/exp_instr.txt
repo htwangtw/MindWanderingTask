@@ -1,0 +1,30 @@
+Advance to instructions...
+#
+Welcome to our experiment.
+
+In it you will be asked to attend to pairs of different shapes, divided by a coloured vertical line in the middle of the screen.
+The vertical line will always be BLUE or RED to indicate whether you are in the BLUE condition or RED condition.
+On screens where shapes are coloured BLACK you will only be required to keep your eyes in the centre of the screen and attend to the shapes.
+
+Depending on the condition when you are presented with a target you must indicate 
+In BLUE CONDITION which side the target shape is on CURRENTLY
+In RED CONDITION which side the target shape was on PREVIOUSLY 
+The left arrow button indicates LEFT.
+The right arrow button indicates RIGHT.
+
+
+You should try to be as quick and accurate as possible.
+Press RETURN to continue.
+#
+Sometimes the task will randomly stop and you will be asked about your level of focus on the task and a series of questions about your thoughts.You will then have to specify on what your thoughts were focused on just before the task was interrupted. 
+When answering these questions please remember there are no right answers, but please try to answer them as fast as possible. 
+When prompted please try to describe the thoughts that you were having in EXACTLY the moments before you were interrupted.
+
+Please use number '1' to '4' to indicate how much each description reflects your experience.
+
+	'1' indicates 'not at all'. 
+	'2' indicates 'slightly'. 
+	'3' indicates 'moderately'. 
+	'4' indicates 'completely'.
+
+Press RETURN to start the task.
