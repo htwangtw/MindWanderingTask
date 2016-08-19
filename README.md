@@ -6,9 +6,7 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 Documentation coming soon. 
 
 
-##Recet update:
-
-19082016	
+##Recent update: 19082016	
 
 Increased the number of go-trials in the practice.
 
