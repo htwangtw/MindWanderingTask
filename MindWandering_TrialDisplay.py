@@ -209,10 +209,13 @@ def endExp(f):
 
 def expTrial(myClock, trials, datafn, expInfo, feedback=True): 
     keyResp, thisRT, respRT, CORR = reset_output()
-    if expInfo['expName'] == 'mindwandering_practice':
+    # if loop for when to insert the ending questions
+    # this is so badly written I need to update this
+    if expInfo['session'] == '999':
         nEndStart = 120
     else:
-        nEndStart = trials.shape[0] - 22
+        nEndStart = trials.shape[0] - 22 
+    
     for i, thisTrial in enumerate(trials):
         if i ==0:
             headers = 'TrialIndex,StimIndex,nBack,stimType,fixStart,fixT,stimStart,stimT,stimPic,mwType,Ans,keyResp,respCORR,respRT,IDNO,Session\n'
