@@ -175,9 +175,10 @@ def NoGo_screen(myClock, i, thisTrial, expInfo, f, feedback=True):
     if event.getKeys(keyList = ['escape']):
         quitEXP(True)
     core.wait(thisTrial['stimT'])
-    saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart)
     if feedback==True and thisTrial['stimType'] == 'TT':
         feedback_screen(keyResp, CORR)
+    saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart)
+
 
 
 
