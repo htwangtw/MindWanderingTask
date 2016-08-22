@@ -28,17 +28,17 @@ instrTxt = visual.TextStim(win,text='default text', font= sans, name='instructio
     pos=[-50,0], height=30, wrapWidth=1100,
     color='black',
     ) #object to display instructions
-fb = visual.TextStim(win,text='Missed', font= sans, name='feedback',
+fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
     height=50, wrapWidth=1100,
     color='black', 
     )
 
 def feedback_screen(keyResp, CORR):
-    if keyResp:
-        if CORR == 0:
-            fb_txt = 'Wrong'
-        else:
-            fb_txt = 'Correct'
+	fb_txt ='Missed'
+    if CORR == 0:
+        fb_txt = 'Wrong'
+    elif CORR == 1:
+        fb_txt = 'Correct'
     else:
         fb_txt = 'Missed'
     fb.setText(fb_txt)
