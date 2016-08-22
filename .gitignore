@@ -47,4 +47,5 @@ Temporary Items
 .apdisk
 
 #python compiler file
-$.pyc
+data*/
+*.pyc
