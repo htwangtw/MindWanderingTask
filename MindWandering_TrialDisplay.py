@@ -210,7 +210,7 @@ def endExp(f):
 
 def expTrial(myClock, trials, datafn, expInfo, feedback=True): 
     keyResp, thisRT, respRT, CORR = reset_output()
-    if expInfo['expName'] == 'mindwandering_practice':
+    if expInfo['expName'] == 'mindwandering_aging_practice':
         nEndStart = 120
     else:
         nEndStart = trials.shape[0] - 22
