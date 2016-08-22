@@ -34,7 +34,7 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
     )
 
 def feedback_screen(keyResp, CORR):
-	fb_txt ='Missed'
+    fb_txt ='Missed'
     if CORR == 0:
         fb_txt = 'Wrong'
     elif CORR == 1:
@@ -210,7 +210,7 @@ def endExp(f):
 
 def expTrial(myClock, trials, datafn, expInfo, feedback=True): 
     keyResp, thisRT, respRT, CORR = reset_output()
-    if expInfo['expName'] == 'mindwandering_aging_practice':
+    if expInfo['expName'] == 'mindwandering_practice':
         nEndStart = 120
     else:
         nEndStart = trials.shape[0] - 22

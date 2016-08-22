@@ -209,7 +209,7 @@ def setStim (STIMS_DIR, keys, times, selection):
 			pick = randint(0,len(TT0B_names))
 			cur_stim = TT0B_names[pick]
 			temp_ans = TT0B_names[pick].split('_')[2]
-			if ans =='L':
+			if temp_ans =='L':
 				cur_ans = 'left'
 			else:
 				cur_ans = 'right'
