@@ -6,9 +6,7 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 Documentation coming soon. 
 
 
-##Recent update: 19082016	
-
-Increased the number of go-trials in the practice.
-
-Added feedback screen after the go-trials in practice, with a handle to toggle it on and off. 
-
+##Recent update: 22082016	
+	Fixed stimList variable typo. 
+	This problem has led to incorrect accuracy judgement in the 0-back task. 
+	However, every dispy has been recoreded and can recover the correct accuracy rate by checking the display on go trials.
