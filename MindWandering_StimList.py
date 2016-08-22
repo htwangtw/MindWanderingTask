@@ -313,10 +313,11 @@ def getPractice(expInfo, datafn, switch=1):
     trials = getStim(STIMS_DIR='Stimuli' + os.sep, selection=expInfo['conditions'], 
         nSwitch=switch, nTT=10*(switch+1)/2, nProbe=1 , nMWQ=13, time=3*(switch+1)/2, 
         filename=datafn +'_practice.csv')
-    np.save('practice_trials',trials[:-14,])
+    np.save(datafn + 'practice_trials',trials[:-14,])
     return trials
-#x = getPractice(expInfo, datafn, switch=3)
-#expInfo = {
+# expInfo = {
 #    'subject': '001', 
 #    'session': '001', 
-#    'conditions' : '0-back',
+#    'conditions' : '0-back',}
+
+# x = getPractice(expInfo, 'test', switch=3)

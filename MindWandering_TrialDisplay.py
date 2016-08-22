@@ -35,10 +35,11 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
 
 def feedback_screen(keyResp, CORR):
     fb_txt ='Missed'
-    if CORR == 0:
-        fb_txt = 'Wrong'
-    elif CORR == 1:
-        fb_txt = 'Correct'
+    if keyResp:
+        if CORR == 0:
+            fb_txt = 'Wrong'
+        elif CORR == 1:
+            fb_txt = 'Correct'
     else:
         fb_txt = 'Missed'
     fb.setText(fb_txt)
@@ -89,7 +90,6 @@ def getResp(stimType, startT, stimT, myClock, thisTrial):
         	CORR = 1
         else:
             CORR = 0
-
     return keyResp, respRT, CORR
 
 def saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart):
@@ -178,8 +178,6 @@ def NoGo_screen(myClock, i, thisTrial, expInfo, f, feedback=True):
     if feedback==True and thisTrial['stimType'] == 'TT':
         feedback_screen(keyResp, CORR)
     saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart)
-
-
 
 
 def switch_screen(myClock, i, thisTrial, expInfo, f):
