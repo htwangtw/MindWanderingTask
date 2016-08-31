@@ -211,8 +211,11 @@ def setStim (STIMS_DIR, keys, times, selection):
 			temp_ans = TT0B_names[pick].split('_')[2]
 			if temp_ans =='L':
 				cur_ans = 'left'
-			else:
+			elif temp_ans =='R':
 				cur_ans = 'right'
+			else:
+				cur_ans = 'error'
+				print 'error when stripping the correct trial answer'
 			
 			pic.append(cur_stim)
 			mwType.append('TT')
