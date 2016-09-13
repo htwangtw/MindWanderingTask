@@ -34,15 +34,16 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
     )
 
 def feedback_screen(keyResp, CORR):
-    fb_txt ='Missed'
+    feedbacks_txt = open('Instructions\\feedbacks.txt', 'r').read().split('\n')
+    fb_msg = feedbacks_txt[0]
     if keyResp:
         if CORR == 0:
-            fb_txt = 'Wrong'
+            fb_msg = feedbacks_txt[1]
         elif CORR == 1:
-            fb_txt = 'Correct'
+            fb_msg = feedbacks_txt[2]
     else:
-        fb_txt = 'Missed'
-    fb.setText(fb_txt)
+        fb_msg = feedbacks_txt[0]
+    fb.setText(fb_msg)
     fb.draw()
     win.flip()
     core.wait(1)
@@ -70,7 +71,7 @@ def getResp(stimType, startT, stimT, myClock, thisTrial):
     if stimType == 'MWQ' or stimType == 'END':
     	while keyResp==None:
             show_questions()
-            keyResp, thisRT = get_keyboard(myClock,win, respkeylist=['1', '2', '3', '4'])
+            keyResp, thisRT = get_keyboard(myClock,win, respkeylist=['1', '2', '3', '4']) #set response keys, any numbers you want
             if not np.isnan(thisRT):
                 respRT = thisRT - startT
             else:

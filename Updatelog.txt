@@ -1,3 +1,6 @@
+13092016	annotation. 
+		MindWandering_StimList.py: add an option for people to add 500 ms extra on go-trials
+
 22082016	Fixed stimList typo. 
 		This problem has led to incorrect accuracy judgement in the 0-back task. 
 		However, every dispy has been recoreded and can recover the correct accuracy rate by checking the display on go trials.

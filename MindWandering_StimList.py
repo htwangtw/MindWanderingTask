@@ -1,8 +1,20 @@
 '''
 v0.2
 changed stimuli name
+
+This is not the most elegant script of mine and the naming is a bit messy.
+Please let me know if you have any question.
 '''
 
+'''
+set parameters
+'''
+extend_resp_time = 0 # add 500 ms in all go trials if the experiment has special need. If you want the normal version, set to 0
+n_endloop = 22 # the number of questions you ask at the end of the task
+
+'''
+generating trial list
+'''
 from numpy.random import randint, shuffle
 import numpy as np
 import glob
@@ -11,38 +23,57 @@ import csv
 import os
 
 def BlockList (nSwitch, nTT, nProbe, nMWQ, time):
+
 	'''
 	Best setting:
-	9 minutes long block with one switch
-	number of go trials = 9
-	number of MWQ probes = 6 
-	number of MWQ = 13
-	number of task (go trials + probes) = 15
+	9 * n minutes long block with one switch
+	number of switch = 1 + 2*(n-1)
+	number of go trials = 9 * n
+	number of MWQ probes = 6 *n
+	number of MWQ = 13 
+	number of task (go trials + probes) = 15 * n
 	'''
+
+	#set: length of the expeirement
 	nNT = round((time * 60 - 66.5 * nProbe - 3.8 * nTT - 2 * nSwitch)/2.5) - 1
 	nCond = nSwitch + 1
 	nTP = nTT + nProbe 
 
+	#set trial labels
+	'''
+	F: fixation cross
+	NT: non-task trial
+	TT: task trial (go trials)
+	MWQ: mind-wandering question
+	QF: fixation cross during the experience sampling period. It is always 500 ms.
+	END: the set of mind-wandering questions set at the end. 
+	'''
+
 	NT = ['F', 'NT']
 	TT = ['F', 'TT']
-	Probe = ['F'] + ['MWQ', 'QF']*12 + ['MWQ']
-	End = ['F'] + ['END', 'QF']*21 + ['END']
+	Probe = ['F'] + ['MWQ', 'QF']*(nMWQ-1) + ['MWQ']
+	End = ['F'] + ['END', 'QF']*(n_endloop-1) + ['END']
     
-	ntrials = 2 * (nNT + nTT + nSwitch) + len(Probe) * nProbe
-	#create a list
+	ntrials = 2 * (nNT + nTT + nSwitch) + len(Probe) * nProbe    #set: the number of total trials
+
+	# create a random list of go trial and mind-wandering question 
 	targORprobe = [TT] * nTT + [Probe] * nProbe
 	shuffle(targORprobe)
 
+	# set the number of no-go trials before showing the END questions 
+	# and exlude in the count of trials while generating the list
 	Nend = randint(2,5)  
 	tempN_NT = nNT - Nend
+
 	trials = []
-	x = 0
+	cur_ntrials = 0 
+
 	i_switch = []
 	for i in range(1, nCond):
 		switch_at = round(nTP/nCond*i - 1, 0)
 		i_switch.append(switch_at)
 
-	while x != ntrials:
+	while cur_ntrials != ntrials: #the loop will keep going until a list of correct number of trials created
 		for i in range(0, len(targORprobe)):
 			init_nNT = randint(2,5)
 			if tempN_NT >= init_nNT:
@@ -52,7 +83,6 @@ def BlockList (nSwitch, nTT, nProbe, nMWQ, time):
 			else:
 				temp = NT* init_nNT
 				trials += temp
-
 
 			trials += targORprobe[i]
 
@@ -67,19 +97,19 @@ def BlockList (nSwitch, nTT, nProbe, nMWQ, time):
 			if i == len(targORprobe)-1:
 				trials += NT * Nend
 
-
-		x = len(trials)
-
-		if x != ntrials:
+		#debug
+		cur_ntrials = len(trials) 
+		if cur_ntrials != ntrials:
 			tempN_NT = nNT - Nend
 			trials = []
-			print 'abandon this list as it doesnt meet the criteria %i'%(ntrials), x
+			print 'abandon this list as it doesnt meet the criteria %i'%(ntrials), cur_ntrials
 		else: 
-			print 'save this list', x
+			print 'save this list', cur_ntrials
 			trials +=End
+
 	blocklst = np.array(trials)
 
-	explen = time*60+5*22
+	explen = time * 60 + 5 * 22 #length of the experiment (estimation)
 	tempDis = np.zeros(len(blocklst))
 	blocklen = np.sum(tempDis)
 	while blocklen != explen:
@@ -89,7 +119,7 @@ def BlockList (nSwitch, nTT, nProbe, nMWQ, time):
 			elif blocklst[i] =='NT':
 				cur_len = np.arange(0.80,1.25,0.05)[randint(0,9)]  #time length of the trial
 			elif blocklst[i] =='TT':
-				cur_len = np.arange(2.1,2.55,0.05)[randint(0,9)]  #the time length of target display
+				cur_len = np.arange(2.1,2.55,0.05)[randint(0,9)] + extend_resp_time #the time length of target display
 			elif blocklst[i] =='MWQ' or blocklst[i] =='END' :
 			 	cur_len = 4.5  #the time length of target display
 			elif blocklst[i] =='QF':
@@ -109,8 +139,6 @@ def BlockList (nSwitch, nTT, nProbe, nMWQ, time):
 
 def setStim (STIMS_DIR, keys, times, selection):
 	'''
-	the current version only work with ONE switch
-
 	STIMS_DIR: the directory of the stimuli
 	keys: the trial type keys you got from function BlockList
 	selection: manually set the starting condition or not, 
@@ -129,6 +157,7 @@ def setStim (STIMS_DIR, keys, times, selection):
 		    cond = None
 		return cond
 
+	#get file names
 	NT_0B_STIMS_DIR = STIMS_DIR  + '0B_N*.png' 
 	TT_0B_STIMS_DIR = STIMS_DIR  + '0B_G*.png'
 
@@ -144,11 +173,12 @@ def setStim (STIMS_DIR, keys, times, selection):
 	TT1Bpicfn = glob.glob(TT_1B_STIMS_DIR)
 	TT1B_names = [pic.split(os.sep)[-2] + os.sep + pic.split(os.sep)[-1]  for pic in TT1Bpicfn]
 
+	#get the index of the switch screen
 	switch_ind = np.where(keys == 'Switch')[0] + 1   
 	# print switch_ind, keys.shape[0]
-
 	conlst = np.zeros(keys.shape[0],dtype=int)
 
+	# assign conditions
 	if setcond(selection) == None:
 		cond = [0,1]
 		shuffle(cond)
@@ -156,11 +186,11 @@ def setStim (STIMS_DIR, keys, times, selection):
 		cond = setcond(selection)
 
 	for n in range((len(switch_ind)+1)/2):
-		if n ==0:
+		if n ==0: #first easy-hard switch
 			conlst[0:switch_ind[0]], conlst[switch_ind[0]:] = cond[0], cond[1]
-		elif n*2 == (len(switch_ind)+1)/2:
+		elif n*2 == (len(switch_ind)+1)/2: #last easy-hard switch
 			conlst[switch_ind[n*2-1]:switch_ind[n*2]], conlst[switch_ind[n*2]:] = cond[0], cond[1]
-		else:
+		else: #any switch in between
 			conlst[switch_ind[n*2-1]:switch_ind[n*2]], conlst[switch_ind[n*2]:switch_ind[n*2+1]] = cond[0], cond[1]
 
 
@@ -177,7 +207,7 @@ def setStim (STIMS_DIR, keys, times, selection):
 	MWQ_DIR = STIMS_DIR + 'probe_loop.csv'
 	Focus =   pd.read_csv(MWQ_DIR).values[0]
 	MWQlst =  pd.read_csv(MWQ_DIR).values[1:]
-	# MWQlst =  pd.read_csv(MWQ_DIR).values
+
 	END_DIR = STIMS_DIR + 'end_loop.csv'
 	ENDlst =  pd.read_csv(END_DIR).values
 
@@ -256,9 +286,6 @@ def setStim (STIMS_DIR, keys, times, selection):
 				pic.append(str(Focus[0]))
 				mwType.append(str(Focus[1]))
 				ans.append(str(Focus[2]))
-				# pic.append('My thoughts were focused on the task I was performing')
-				# mwType.append('Focus')
-				# ans.append('Not at all                            Completely')
 				MWQ_ind = np.arange(0,12)
 				shuffle(MWQ_ind)
 			else:
@@ -298,12 +325,12 @@ def getStim (STIMS_DIR, selection, nSwitch, nTT, nProbe, nMWQ, time, filename):
 	triallst['mwType'] = mwT
 	triallst['Ans'] = ans
 	#debug
-	with open(filename, 'wb') as f:
-		f.write(b'TrialIndex,nBack,stimType,fixT,stimT,stimPic,mwType,Ans\n')
-		#f.write(bytes("SP,"+lists+"\n","UTF-8"))
-		#Used this line for a variable list of numbers
-		np.savetxt(f, triallst,delimiter=',', fmt='%i,%i,%s,%10.3f,%10.3f,%s,%s,%s')
-		f.close()
+	# with open(filename, 'wb') as f:
+	# 	f.write(b'TrialIndex,nBack,stimType,fixT,stimT,stimPic,mwType,Ans\n')
+	# 	#f.write(bytes("SP,"+lists+"\n","UTF-8"))
+	# 	#Used this line for a variable list of numbers
+	# 	np.savetxt(f, triallst,delimiter=',', fmt='%i,%i,%s,%10.3f,%10.3f,%s,%s,%s')
+	# 	f.close()
 	return triallst
 	
 def getTrials(expInfo, datafn, switch=3):
@@ -318,9 +345,3 @@ def getPractice(expInfo, datafn, switch=1):
         filename=datafn +'_practice.csv')
     np.save(datafn + 'practice_trials',trials[:-14,])
     return trials
-# expInfo = {
-#    'subject': '001', 
-#    'session': '001', 
-#    'conditions' : '0-back',}
-
-# x = getPractice(expInfo, 'test', switch=3)
