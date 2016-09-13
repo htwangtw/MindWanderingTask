@@ -5,8 +5,6 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 
 Documentation coming soon. 
 
-
-##Recent update: 22082016	
-	Fixed stimList variable typo. 
-	This problem has led to incorrect accuracy judgement in the 0-back task. 
-	However, every dispy has been recoreded and can recover the correct accuracy rate by checking the display on go trials.
+##Recent update: 13092016
+	annotation. 
+	MindWandering_StimList.py: add an option for people to add 500 ms extra on go-trials
