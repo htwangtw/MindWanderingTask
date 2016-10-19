@@ -5,6 +5,7 @@ This paradigm still has a lot to be improved therefore I separated it from the l
 
 Documentation coming soon. 
 
-##Recent update: 13092016
-	annotation. 
-	MindWandering_StimList.py: add an option for people to add 500 ms extra on go-trials
+##Recent update: 19102016
+	MindWandering_TrialDisplay.py: add an option for collecting text description of mind-wandering thoughts
+	mindwandering.py
+	mindwandering_practice.py
