@@ -33,6 +33,8 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
     color='black', 
     )
 
+
+
 def feedback_screen(keyResp, CORR):
     feedbacks_txt = open('Instructions\\feedbacks.txt', 'r').read().split('\n')
     fb_msg = feedbacks_txt[0]
@@ -100,6 +102,7 @@ def saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart):
             thisTrial['stimPic'], thisTrial['mwType'], thisTrial['Ans'],
             keyResp,CORR,respRT,expInfo['subject'],expInfo['session']))
     event.clearEvents()
+
 
 def instruction():
     Instruction = open('Instructions\\exp_instr.txt', 'r').read().split('#\n')
@@ -194,15 +197,93 @@ def switch_screen(myClock, i, thisTrial, expInfo, f):
     core.wait(thisTrial['stimT'])
     saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart)
     
+def freetxt(datafn):
+	# this whole function can run on itself for gathering free text responses.
+	CapturedResponseString = visual.TextStim(win,text='', font= sans, name='FreeTextMW',
+		height=34, wrapWidth=1100, 
+		pos=[-600,100], alignHoriz ='left', alignVert='top', 
+		color='black', 
+		)
+	freetxt_instr = open('Instructions\\FreeText_respinstr.txt', 'r').read()
+	ResponseInstruction = visual.TextStim(win,text=freetxt_instr, font= sans, name='FreeTextInstruction',
+		pos=[0,300], height=34, wrapWidth=1100,
+		color='black',
+		) #object to display instructions
 
-def endExp(f):
+	def updateTheResponse(captured_string):
+		CapturedResponseString.setText(captured_string)
+		CapturedResponseString.draw()
+		ResponseInstruction.setText(freetxt_instr)
+		ResponseInstruction.draw()
+		win.flip()
+
+	def saveThisTxt(datafn, captured_string):
+		outfile = datafn + '_text.txt'
+		f = open(outfile, 'a') #open our results file in append mode so we don't overwrite anything
+		f.write(captured_string) #write the string they typed
+		f.write('; typed at %s' %time.asctime()) #write a timestamp (very course)
+		f.write('\n') # write a line ending
+		f.close() #close and "save" the output file
+
+	captured_string = ''
+	CaptureResp = True
+	shift_flag = False
+	BeforeTyping = open('Instructions\\FreeText_instr.txt', 'r').read()
+	msgTxt.setText(BeforeTyping)
+	msgTxt.draw()
+	win.flip()
+	event.waitKeys('space')
+	updateTheResponse(captured_string + '|')
+	while CaptureResp:
+	    # now we will keep tracking what's happening on the keyboard
+	    # until the participant hits the return key
+	     # only changes when they hit return
+	    
+	    #check for Esc key / return key presses each frame
+		for key in event.getKeys():
+	        #quit at any point
+			if event.getKeys(keyList = ['escape']):
+				quitEXP(True)
+	        #allow the participant to do deletions too , using the 
+	        # delete key, and show the change they made
+			elif key in ['return']:
+				saveThisTxt(datafn, captured_string)
+				CaptureResp = False
+				break
+			elif key in ['delete','backspace']:
+				captured_string = captured_string[:-1] #delete last character
+				updateTheResponse(captured_string)
+	        #handle spaces
+			elif key in ['space']:
+				captured_string += ' '
+				updateTheResponse(captured_string)
+			elif key in ['period']:
+				captured_string += '.'
+				updateTheResponse(captured_string)
+			elif key in ['comma']:
+				captured_string += ','
+				updateTheResponse(captured_string)
+			elif key in ['lshift','rshift']:
+				shift_flag = True
+			elif key in ['lctrl', 'rctrl', 'lwindows', 'capslock', 'right', 'left']:	
+				pass #do nothing when some keys are pressed
+			else: 
+				if shift_flag:
+					captured_string += chr(ord(key) - ord(' '))
+					shift_flag = False
+				else:
+					captured_string = captured_string + key
+				#show it
+			updateTheResponse(captured_string + '|') 
+
+def endExp():
     endtxt = open('Instructions\\end_instr.txt', 'r').read().split('#\n')[0]
     msgTxt.setText(endtxt)
     msgTxt.draw()
     win.flip()
     event.waitKeys(maxWait = 20)
     logging.flush()
-    f.close()
+    # f.close()
     win.close()
     core.quit()
 
@@ -215,13 +296,14 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True):
         nEndStart = 120
     else:
         nEndStart = trials.shape[0] - 22 
-    
+    headers = 'TrialIndex,StimIndex,nBack,stimType,fixStart,fixT,stimStart,stimT,stimPic,mwType,Ans,keyResp,respCORR,respRT,IDNO,Session\n'
+    f = open_datalog(datafn, dataformat='_data.csv', headers=headers)
     for i, thisTrial in enumerate(trials):
-        if i ==0:
-            headers = 'TrialIndex,StimIndex,nBack,stimType,fixStart,fixT,stimStart,stimT,stimPic,mwType,Ans,keyResp,respCORR,respRT,IDNO,Session\n'
-            f = open_datalog(datafn, dataformat='_data.csv', headers=headers)
-        else:
-            pass   
+        # if i ==0:
+        #     headers = 'TrialIndex,StimIndex,nBack,stimType,fixStart,fixT,stimStart,stimT,stimPic,mwType,Ans,keyResp,respCORR,respRT,IDNO,Session\n'
+        #     f = open_datalog(datafn, dataformat='_data.csv', headers=headers)
+        # else:
+        #     pass   
         if thisTrial['stimType'] == 'Switch':
             switch_screen(myClock, i, thisTrial, expInfo, f)
         elif thisTrial['stimType'] == 'MWQ':
@@ -230,7 +312,6 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True):
         	if i == nEndStart:
         		endlooptxt = open('Instructions\\endloop_instr.txt', 'r').read().split('#\n')[0]
         		msgTxt.setText(endlooptxt)
-
         		msgTxt.draw()
         		win.flip()
         		event.waitKeys('space')
@@ -239,7 +320,7 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True):
         		MWQ_screen(myClock, i, thisTrial, expInfo, f)
         else:
             NoGo_screen(myClock, i, thisTrial, expInfo, f, feedback)
-
-    endExp(f)
-
+    f.close()
+    freetxt(datafn)
+    endExp()
 

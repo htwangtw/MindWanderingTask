@@ -6,7 +6,7 @@ expName = 'mindwandering_practice'
 #collect participant info, create logfile
 pptInfo = {
     'subject': '001', 
-    'session': '999', 
+    'session': ['999'], 
     } #a pop up window will show up to collect these information
 
 from psychopy import core
@@ -22,5 +22,5 @@ from MindWandering_StimList import*
 trials = np.load('Stimuli\\practice_trials.npy')
 instruction()
 myClock = core.Clock()
-expTrial(myClock, trials, datafn, expInfo, feedback=True)
+expTrial(myClock, trials, datafn, expInfo, feedback=True, MW_description=False)
 

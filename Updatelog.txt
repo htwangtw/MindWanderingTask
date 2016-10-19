@@ -1,3 +1,5 @@
+19102016	Added option for a free text mind wandering description at the very end of the task.
+
 13092016	annotation. 
 		MindWandering_StimList.py: add an option for people to add 500 ms extra on go-trials
 
