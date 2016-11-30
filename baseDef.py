@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from psychopy import core, event, logging, visual, gui, data
 import time
 import numpy as np

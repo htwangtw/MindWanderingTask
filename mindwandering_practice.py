@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 v 2.02
 '''

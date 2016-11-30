@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 v0.2
 changed stimuli name
