@@ -36,7 +36,7 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
 
 
 def feedback_screen(keyResp, CORR):
-    feedbacks_txt = open('Instructions\\feedbacks.txt', 'r').read().split('\n')
+    feedbacks_txt = open('Instructions'+ os.sep+ 'feedbacks.txt', 'r').read().split('\n')
     fb_msg = feedbacks_txt[0]
     if keyResp:
         if CORR == 0:
@@ -105,8 +105,8 @@ def saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart):
 
 
 def instruction():
-    Instruction = open('Instructions\\exp_instr.txt', 'r').read().split('#\n')
-    Ready = open('Instructions\\wait_trigger.txt', 'r').read()
+    Instruction = open('Instructions'+ os.sep+ 'exp_instr.txt', 'r').read().split('#\n')
+    Ready = open('Instructions'+ os.sep+ 'wait_trigger.txt', 'r').read()
     #instructions screen 
     for i, cur in enumerate(Instruction):
         instrTxt.setText(cur)
@@ -134,9 +134,9 @@ def fixation_screen(myClock, thisTrial):
         if thisTrial['mwType']=='Focus':
             fixation = visual.ImageStim(win, name='fixation', image = None, size = (800, 600))#set pix pos
             if thisTrial['nBack'] == 0:
-                fixation.setImage('Stimuli\\0B_fix.png')
+                fixation.setImage('Stimuli'+ os.sep+ '0B_fix.png')
             elif thisTrial['nBack'] ==1:
-                fixation.setImage('Stimuli\\nB_fix.png')
+                fixation.setImage('Stimuli'+ os.sep+ 'nB_fix.png')
             fixation.draw()
         else:
             fixation = visual.TextStim(win, name='fixation', text='+', color='black', height=62,)#set pix pos
@@ -144,9 +144,9 @@ def fixation_screen(myClock, thisTrial):
     else:
         fixation = visual.ImageStim(win, name='fixation', image = None, size = (800, 600))#set pix pos
         if thisTrial['nBack'] == 0:
-            fixation.setImage('Stimuli\\0B_fix.png')
+            fixation.setImage('Stimuli'+ os.sep+ '0B_fix.png')
         elif thisTrial['nBack'] ==1:
-            fixation.setImage('Stimuli\\nB_fix.png')
+            fixation.setImage('Stimuli'+ os.sep+ 'nB_fix.png')
         fixation.draw()
     win.logOnFlip(level=logging.EXP, msg='fixation cross on screen') #new log haoting
     win.flip()
@@ -204,7 +204,7 @@ def freetxt(datafn):
 		pos=[-600,100], alignHoriz ='left', alignVert='top', 
 		color='black', 
 		)
-	freetxt_instr = open('Instructions\\FreeText_respinstr.txt', 'r').read()
+	freetxt_instr = open('Instructions'+ os.sep+ 'FreeText_respinstr.txt', 'r').read()
 	ResponseInstruction = visual.TextStim(win,text=freetxt_instr, font= sans, name='FreeTextInstruction',
 		pos=[0,300], height=34, wrapWidth=1100,
 		color='black',
@@ -228,7 +228,7 @@ def freetxt(datafn):
 	captured_string = ''
 	CaptureResp = True
 	shift_flag = False
-	BeforeTyping = open('Instructions\\FreeText_instr.txt', 'r').read()
+	BeforeTyping = open('Instructions'+ os.sep+ 'FreeText_instr.txt', 'r').read()
 	msgTxt.setText(BeforeTyping)
 	msgTxt.draw()
 	win.flip()
@@ -277,7 +277,7 @@ def freetxt(datafn):
 			updateTheResponse(captured_string + '|') 
 
 def endExp():
-    endtxt = open('Instructions\\end_instr.txt', 'r').read().split('#\n')[0]
+    endtxt = open('Instructions'+ os.sep+ 'end_instr.txt', 'r').read().split('#\n')[0]
     msgTxt.setText(endtxt)
     msgTxt.draw()
     win.flip()
@@ -310,7 +310,7 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True):
             MWQ_screen(myClock, i, thisTrial, expInfo, f)
         elif thisTrial['stimType'] == 'END':
         	if i == nEndStart:
-        		endlooptxt = open('Instructions\\endloop_instr.txt', 'r').read().split('#\n')[0]
+        		endlooptxt = open('Instructions'+ os.sep+ 'endloop_instr.txt', 'r').read().split('#\n')[0]
         		msgTxt.setText(endlooptxt)
         		msgTxt.draw()
         		win.flip()
