@@ -327,12 +327,12 @@ def getStim (STIMS_DIR, selection, nSwitch, nTT, nProbe, nMWQ, time, filename):
 	triallst['mwType'] = mwT
 	triallst['Ans'] = ans
 	#debug
-	# with open(filename, 'wb') as f:
-	# 	f.write(b'TrialIndex,nBack,stimType,fixT,stimT,stimPic,mwType,Ans\n')
-	# 	#f.write(bytes("SP,"+lists+"\n","UTF-8"))
-	# 	#Used this line for a variable list of numbers
-	# 	np.savetxt(f, triallst,delimiter=',', fmt='%i,%i,%s,%10.3f,%10.3f,%s,%s,%s')
-	# 	f.close()
+	with open(filename, 'wb') as f:
+		f.write(b'TrialIndex,nBack,stimType,fixT,stimT,stimPic,mwType,Ans\n')
+		#f.write(bytes("SP,"+lists+"\n","UTF-8"))
+		#Used this line for a variable list of numbers
+		np.savetxt(f, triallst,delimiter=',', fmt='%i,%i,%s,%10.3f,%10.3f,%s,%s,%s')
+		f.close()
 	return triallst
 	
 def getTrials(expInfo, datafn, switch=3):

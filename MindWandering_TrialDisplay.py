@@ -39,7 +39,7 @@ fb = visual.TextStim(win,text='default text', font= sans, name='feedback',
 import codecs
 
 def feedback_screen(keyResp, CORR):
-    feedbacks_txt = codecs.open('Instructions'+ os.sep+ 'feedbacks.txt', encoding='utf-8', 'r').read().split('\n')
+    feedbacks_txt = codecs.open('Instructions'+ os.sep+ 'feedbacks.txt', 'r', encoding='utf-8').read().split('\n')
     fb_msg = feedbacks_txt[0]
     if keyResp:
         if CORR == 0:
@@ -108,8 +108,8 @@ def saveResp(f, i, thisTrial, expInfo, keyResp, respRT, CORR, startT, fixStart):
 
 
 def instruction():
-    Instruction = codecs.open('Instructions'+ os.sep+ 'exp_instr.txt', encoding='utf-8', 'r').read().split('#\n')
-    Ready = codecs.open('Instructions'+ os.sep+ 'wait_trigger.txt', encoding='utf-8', 'r').read()
+    Instruction = codecs.open('Instructions'+ os.sep+ 'exp_instr.txt', 'r', encoding='utf-8').read().split('#\n')
+    Ready = codecs.open('Instructions'+ os.sep+ 'wait_trigger.txt', 'r', encoding='utf-8').read()
     #instructions screen 
     for i, cur in enumerate(Instruction):
         instrTxt.setText(cur)
@@ -207,7 +207,7 @@ def freetxt(datafn):
 		pos=[-600,100], alignHoriz ='left', alignVert='top', 
 		color='black', 
 		)
-	freetxt_instr = codecs.open('Instructions'+ os.sep+ 'FreeText_respinstr.txt', encoding='utf-8', 'r').read()
+	freetxt_instr = codecs.open('Instructions'+ os.sep+ 'FreeText_respinstr.txt', 'r', encoding='utf-8').read()
 	ResponseInstruction = visual.TextStim(win,text=freetxt_instr, font= sans, name='FreeTextInstruction',
 		pos=[0,300], height=34, wrapWidth=1100,
 		color='black',
@@ -222,7 +222,7 @@ def freetxt(datafn):
 
 	def saveThisTxt(datafn, captured_string):
 		outfile = datafn + '_text.txt'
-		f = codecs.open(outfile, encoding='utf-8', 'a') #open our results file in append mode so we don't overwrite anything
+		f = codecs.open(outfile, 'a', encoding='utf-8') #open our results file in append mode so we don't overwrite anything
 		f.write(captured_string) #write the string they typed
 		f.write('; typed at %s' %time.asctime()) #write a timestamp (very course)
 		f.write('\n') # write a line ending
@@ -231,7 +231,7 @@ def freetxt(datafn):
 	captured_string = ''
 	CaptureResp = True
 	shift_flag = False
-	BeforeTyping = codecs.open('Instructions'+ os.sep+ 'FreeText_instr.txt', encoding='utf-8', 'r').read()
+	BeforeTyping = codecs.open('Instructions'+ os.sep+ 'FreeText_instr.txt', 'r', encoding='utf-8').read()
 	msgTxt.setText(BeforeTyping)
 	msgTxt.draw()
 	win.flip()
@@ -280,7 +280,7 @@ def freetxt(datafn):
 			updateTheResponse(captured_string + '|') 
 
 def endExp():
-    endtxt = codecs.open('Instructions'+ os.sep+ 'end_instr.txt', encoding='utf-8', 'r').read().split('#\n')[0]
+    endtxt = codecs.open('Instructions'+ os.sep+ 'end_instr.txt', 'r', encoding='utf-8').read().split('#\n')[0]
     msgTxt.setText(endtxt)
     msgTxt.draw()
     win.flip()
@@ -313,7 +313,7 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True):
             MWQ_screen(myClock, i, thisTrial, expInfo, f)
         elif thisTrial['stimType'] == 'END':
         	if i == nEndStart:
-        		endlooptxt = codecs.open('Instructions'+ os.sep+ 'endloop_instr.txt', encoding='utf-8', 'r').read().split('#\n')[0]
+        		endlooptxt = codecs.open('Instructions'+ os.sep+ 'endloop_instr.txt', 'r', encoding='utf-8').read().split('#\n')[0]
         		msgTxt.setText(endlooptxt)
         		msgTxt.draw()
         		win.flip()
