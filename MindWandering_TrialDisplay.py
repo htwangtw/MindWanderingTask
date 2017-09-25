@@ -293,7 +293,12 @@ def endExp():
 
 def expTrial(myClock, trials, datafn, expInfo, feedback=True, MW_description=False): 
     keyResp, thisRT, respRT, CORR = reset_output()
-    nEndStart = trials.shape[0] - 22 
+    # if loop for when to insert the ending questions
+    # this is so badly written I need to update this
+    if expInfo['session'] == '999':
+        nEndStart = 120
+    else:
+        nEndStart = trials.shape[0] - 22 
     headers = 'TrialIndex,StimIndex,nBack,stimType,fixStart,fixT,stimStart,stimT,stimPic,mwType,Ans,keyResp,respCORR,respRT,IDNO,Session\n'
     f = open_datalog(datafn, dataformat='_data.csv', headers=headers)
     for i, thisTrial in enumerate(trials):
@@ -319,6 +324,7 @@ def expTrial(myClock, trials, datafn, expInfo, feedback=True, MW_description=Fal
         else:
             NoGo_screen(myClock, i, thisTrial, expInfo, f, feedback)
     f.close()
-    freetxt(datafn)
+    if MW_description:
+        freetxt(datafn)
     endExp()
 
