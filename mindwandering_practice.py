@@ -9,6 +9,7 @@ expName = 'mindwandering_practice'
 pptInfo = {
     'subject': '001', 
     'session': ['999'], 
+    'conditions':['random']
     } #a pop up window will show up to collect these information
 
 from psychopy import core
@@ -21,7 +22,7 @@ expInfo, datafn = info_gui(expName, pptInfo)
 from MindWandering_TrialDisplay import*
 from MindWandering_StimList import*
 
-trials = np.load('Stimuli\\practice_trials.npy')
+trials = getPractice(expInfo, datafn, switch=1)
 instruction()
 myClock = core.Clock()
 expTrial(myClock, trials, datafn, expInfo, feedback=True, MW_description=False)

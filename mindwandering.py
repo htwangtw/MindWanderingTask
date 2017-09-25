@@ -30,4 +30,4 @@ from MindWandering_StimList import*
 trials = getTrials(expInfo, datafn, switch=1) #3 switiches = four blocks = around 20 minutes 
 instruction()
 myClock = core.Clock()
-expTrial(myClock, trials, datafn, expInfo, feedback=False)
+expTrial(myClock, trials, datafn, expInfo, feedback=False, MW_description=True)
